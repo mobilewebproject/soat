@@ -1,3 +1,10 @@
+*/target/**
+*/tmp/**
+.classpath
+.project
+.settings
+.git
+
 *.class
 
 # Package Files #
