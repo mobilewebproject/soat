@@ -17,41 +17,43 @@ import fr.soat.client.util.PersonData;
 import fr.soat.shared.Person;
 
 /**
- * Peresenter pour le formulaire de saisie des coordonnées de la personne 
- * Il implement la vue de la View 
+ * Peresenter pour le formulaire de saisie des coordonnées de la personne Il
+ * implement la vue de la View
+ * 
  * @see FormPersonPresenter.IFormPersonView
  * @author Kader
- *
+ * 
  */
-public class FormPersonView extends Composite implements FormPersonPresenter.IFormPersonView {
+public class FormPersonView extends Composite implements
+		FormPersonPresenter.IFormPersonView {
 
 	private static FormPersonViewUiBinder uiBinder = GWT
 			.create(FormPersonViewUiBinder.class);
 
 	interface FormPersonViewUiBinder extends UiBinder<Widget, FormPersonView> {
 	}
-	
+
 	@UiField(provided = true)
 	ListBox civilite;
-	
+
 	@UiField
 	TextBox nom;
-	
+
 	@UiField
 	TextBox prenom;
-	
+
 	@UiField
 	TextBox email;
-	
+
 	@UiField
 	Button saveBtn;
-	
+
 	private FormPersonPresenter presenter;
 	private PersonData personData;
 	private static final String BOX_ERROR = "box-error";
-	
+
 	/**
-	 * Constructeur sans args du Presenter 
+	 * Constructeur sans args du Presenter
 	 */
 	public FormPersonView() {
 		personData = new PersonData();
@@ -61,59 +63,50 @@ public class FormPersonView extends Composite implements FormPersonPresenter.IFo
 	}
 
 	/**
-	 * Populer la liste de civilités 
+	 * Populer la liste de civilités
 	 */
 	private void initCivilite() {
 		for (int i = 0; i < personData.getCivilites().length; i++) {
 			civilite.addItem(personData.getCivilites()[i], String.valueOf(i));
 		}
 	}
-	
+
 	@UiHandler("saveBtn")
 	void onClick(ClickEvent e) {
-		if(checkPerson()){
+		if (checkPerson()) {
 			this.presenter.doEnregistrerPerson(getPerson());
-		}else {
+		} else {
 			Window.alert("Veuillez renseigner les champs obligatoires ");
 		}
-		
+
 	}
 
 	/**
-	 * Vérifier la validaité des champs obligatoires 
+	 * Vérifier la validaité des champs obligatoires
+	 * 
 	 * @return
 	 */
 	private boolean checkPerson() {
 		boolean isValid = true;
 		if (fieldIsNotValid(this.nom.getValue())) {
-			this.nom.addStyleName(BOX_ERROR);
 			isValid = false;
-		}else{
-			this.nom.removeStyleName(BOX_ERROR);
 		}
 		if (fieldIsNotValid(this.prenom.getValue())) {
-			this.prenom.addStyleName(BOX_ERROR);
 			isValid = false;
-		}else{
-			this.prenom.removeStyleName(BOX_ERROR);
 		}
 		if (fieldIsNotValid(this.email.getValue())) {
-			this.email.addStyleName(BOX_ERROR);
 			isValid = false;
-		}else{
-			this.email.removeStyleName(BOX_ERROR);
 		}
-		if(civilite.getValue(civilite.getSelectedIndex()) == null){
-			this.civilite.addStyleName(BOX_ERROR);
+		if (civilite.getValue(civilite.getSelectedIndex()) == null) {
 			isValid = false;
-		}else{
-			this.civilite.removeStyleName(BOX_ERROR);
 		}
 		return isValid;
 	}
 
+	
 	/**
-	 * Champs valide 
+	 * Champs valide
+	 * 
 	 * @param value
 	 * @return
 	 */
@@ -122,7 +115,8 @@ public class FormPersonView extends Composite implements FormPersonPresenter.IFo
 	}
 
 	/**
-	 * Retourner la person du formulaire 
+	 * Retourner la person du formulaire
+	 * 
 	 * @return
 	 */
 	private Person getPerson() {
@@ -134,7 +128,6 @@ public class FormPersonView extends Composite implements FormPersonPresenter.IFo
 		return person;
 	}
 
-	
 	@Override
 	public void setPrenseter(FormPersonPresenter presenter) {
 		this.presenter = presenter;
